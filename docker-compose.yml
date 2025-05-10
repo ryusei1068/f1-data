@@ -1,0 +1,48 @@
+version: "3"
+
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpass
+      - DOCKER_INFLUXDB_INIT_ORG=f1
+      - DOCKER_INFLUXDB_INIT_BUCKET=data
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-super-token
+
+  grafana:
+    image: grafana/grafana:11.6.1
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./storage/grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+      - ./storage/grafana/dashboards:/var/lib/grafana/dashboards
+      - ./storage/grafana/dashboard-settings:/etc/grafana/provisioning/dashboards
+    depends_on:
+      - influxdb
+
+  f1-data-picker:
+    build:
+      context: ./src
+    container_name: f1-data-picker
+    depends_on:
+      - influxdb
+    ports:
+      - "8000:8000"
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=my-super-token
+      - INFLUXDB_ORG=f1
+      - INFLUXDB_BUCKET=data
+
+volumes:
+  influxdb-data:
