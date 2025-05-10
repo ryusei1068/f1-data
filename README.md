@@ -2,7 +2,7 @@
 
 This application fetches Formula 1 race data (laps, weather, race control messages) from the [FastF1](https://theoehrly.github.io/Fast-F1/) API, stores it in [InfluxDB](https://www.influxdata.com/), and enables visualization through [Grafana](https://grafana.com/).
 
-## 🏎️ Features
+## Features
 
 - Fetch historical F1 data by year, race, and session
 - Store data into InfluxDB
@@ -11,20 +11,16 @@ This application fetches Formula 1 race data (laps, weather, race control messag
 
 ---
 
-## ✅ Requirements
+## Requirements
 
 You need the following software installed on your machine:
 
 - [Docker](https://www.docker.com/) (recommended: version 20.x or later)
 - [Docker Compose](https://docs.docker.com/compose/) (recommended: version 1.29 or later)
 
-👉 No need to install Python or pip locally (all included in Docker).
-
 ---
 
-## 🚀 How to Run
-
-1️⃣ Clone the repository:
+## How to Run
 
 ```bash
 docker compose up
@@ -33,8 +29,6 @@ docker compose up
 ## Example: Fetching Data
 
 You can fetch and store data for a specific year, race, and session using the /history API endpoint.
-
-### Example 1: 2024 British GP Race (R)
 
 Example 1: 2024 British GP Race (R)
 ```
